@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Home</title>
+</head>
+    <body>
+        <img src="{{url_for('static', filename='image/flask_icons.png')}}">
+
+        <h1>Welcome to Flask</h1>
+        <p>This is the home page of our Flask application.</p>
+        <div id="image_list">
+            <img src="{{ url_for('static', filename='image/flask_img.jpg')}}" alt="" class="main-img">
+            <div class="list">
+                <ul>
+                    <li> <span>Performance:</span> Fast and lightweight backend.</li>
+                    <li> <span> Scalability:</span> Easy to expand with new routes.</li>
+                    <li> <span>Templating:</span> Rendering dynamic HTML with Jinja2.</li>
+                    <li> <span>Security:</span> Handling data safely by default.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="nav">
+            <nav>
+                <a href="/about" class="nav-link">About Us</a>
+                <a href="/contact" class="nav-link">Contacts</a>
+            </nav>
+        </div>
+    </body>
+</html>
