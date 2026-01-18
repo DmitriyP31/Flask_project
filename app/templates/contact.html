@@ -3,31 +3,49 @@
 {% block title %}Contacts{% endblock %}
 
 {% block content %}
-    <div class="form-container">
-        <h2>Contact Us</h2>
-        {% if request.args.get('status') == "success" %}
-            <p style="color: green;">Your message has been sent successfully!</p>
-        {% endif %}
-        <form action="/submit" method="POST" novalidate>
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" name="name" value="{{ values.get('name', '') if values else ''}}" required>
-            {% if errors and errors.name %}
-                <p class="error-message">{{ errors.name }}</p>
+    <div class="contact-group">
+        <div class="form-container">
+            <h2>Contact Us</h2>
+            {% if request.args.get('status') == "success" %}
+                <p style="color: green;">Your message has been sent successfully!</p>
             {% endif %}
+            <form action="/submit" method="POST" novalidate>
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" value="{{ values.get('name', '') if values else ''}}" required>
+                {% if errors and errors.name %}
+                    <p class="error-message">{{ errors.name }}</p>
+                {% endif %}
 
-            <label for="email">Your Email:</label>
-            <input type="email" id="email" name="email" value="{{ values.get('email', '') if values else ''}}" required>
-            {% if errors and errors.email %}
-                <p class="error-message">{{ errors.email }}</p>
-            {% endif %}
+                <label for="email">Your Email:</label>
+                <input type="email" id="email" name="email" value="{{ values.get('email', '') if values else ''}}" required>
+                {% if errors and errors.email %}
+                    <p class="error-message">{{ errors.email }}</p>
+                {% endif %}
 
-            <label for="message">Your Message:</label>
-            <textarea id="message" name="message" rows="4" required>{{ values.get('message', '') if values else ''}}</textarea>
-            {% if errors and errors.message %}
-                <p class="error-message">{{ errors.message }}</p>
-            {% endif %}
+                <label for="message">Your Message:</label>
+                <textarea id="message" name="message" rows="4" required>{{ values.get('message', '') if values else ''}}</textarea>
+                {% if errors and errors.message %}
+                    <p class="error-message">{{ errors.message }}</p>
+                {% endif %}
 
-            <button type="submit">Send</button>
-        </form>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+
+        <div class="contact-card">
+            <h2>{{ info.department }}</h2>
+            <p><strong>Manager:</strong> {{ info.manager.name }}</p>
+            <p><strong>Role:</strong> {{ info.manager.role }}</p>
+            <p><strong>Email:</strong> <a href="{{ info.manager.email }}">{{ info.manager.email }}</a></p>
+
+            <div class="address-box">
+                <h3>Our address:</h3>
+                <p>
+                    {{ info.address.zip_code }},
+                    г. {{ info.address.city }},
+                    {{ info.address.street }}
+                </p>
+            </div>
+        </div>
     </div>
 {% endblock %}

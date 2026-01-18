@@ -3,13 +3,26 @@
 {% block title %}About Us{% endblock %}
 
 {% block content %}
-    <h2>About Us</h2>
-    <p>This page provides information about our company.</p>
-        <div class="list">
+    <h1>About Us</h1>
+    <p class="description">This page provides information about our company.</p>
+    <div class="about-group">
+        <div class="list-card">
             <ul>
-                <li>Mission: To teach programming effectively.</li>
-                <li>Vision: Empower people to build their ideas.</li>
-                <li>Values: Collaboration, innovation, and learning.</li>
+                <li><strong>Mission:</strong> To teach programming effectively.</li>
+                <li><strong>Vision:</strong> Empower people to build their ideas.</li>
+                <li><strong>Values:</strong> Collaboration, innovation, and learning.</li>
             </ul>
         </div>
+        <div class="team">
+            <h2>Our team</h2>
+            <div class="team-group">
+                {% for member in team %}
+                    <div class="member">
+                        <span class="member-name">{{member['name']}}</span>
+                        <span class="member-role">{{member['role']}}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

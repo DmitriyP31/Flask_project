@@ -1,25 +1,48 @@
 from flask import render_template, request, redirect, url_for
 from app import app
 import re
+from datetime import datetime
 
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    now = datetime.now()
+    return render_template("index.html", current_time=now)
 
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    now = datetime.now()
+    team_members = [
+        {'name': 'Alice', 'role': 'Developer'},
+        {'name': 'Bob', 'role': 'Designer'},
+        {'name': 'Charlie', 'role': 'Project Manager'}
+    ]
+    return render_template("about.html", team=team_members, current_time=now)
 
 
 @app.route('/contact')
 def contact():
-    return render_template('contact.html')
+    now = datetime.now()
+    contact_info = {
+        "department": "Customer Care Department",
+        "manager": {
+            "name": "Alexander Petrov",
+            "role": "Manager",
+            "email": "support@example.com"
+        },
+        "address": {
+            "city": "Moscow",
+            "street": "Pushkin St., Building 10",
+            "zip_code": "101000"
+        }
+    }
+    return render_template('contact.html', current_time=now, info=contact_info)
 
 
 @app.route("/submit", methods=["POST"])
 def submit():
+    now = datetime.now()
     name = request.form.get("name")
     email = request.form.get("email")
     message = request.form.get("message").strip()
@@ -38,7 +61,7 @@ def submit():
         errors['message'] = "The message field must not be empty"
 
     if errors:
-        return render_template("contact.html", errors=errors, values=request.form)
+        return render_template("contact.html", errors=errors, values=request.form, current_time=now)
 
-    return redirect(url_for("contact", status='success'))
+    return redirect(url_for("contact", status='success', current_time=now))
 
