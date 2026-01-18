@@ -3,8 +3,31 @@
 {% block title %}Contacts{% endblock %}
 
 {% block content %}
-    <h1>Contact us</h1>
-    <p>Email: info@example.com</p>
-    <p>Telephone: +7 (999) 000-00-00</p>
-{% endblock %}
+    <div class="form-container">
+        <h2>Contact Us</h2>
+        {% if request.args.get('status') == "success" %}
+            <p style="color: green;">Your message has been sent successfully!</p>
+        {% endif %}
+        <form action="/submit" method="POST" novalidate>
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" value="{{ values.get('name', '') if values else ''}}" required>
+            {% if errors and errors.name %}
+                <p class="error-message">{{ errors.name }}</p>
+            {% endif %}
 
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" value="{{ values.get('email', '') if values else ''}}" required>
+            {% if errors and errors.email %}
+                <p class="error-message">{{ errors.email }}</p>
+            {% endif %}
+
+            <label for="message">Your Message:</label>
+            <textarea id="message" name="message" rows="4" required>{{ values.get('message', '') if values else ''}}</textarea>
+            {% if errors and errors.message %}
+                <p class="error-message">{{ errors.message }}</p>
+            {% endif %}
+
+            <button type="submit">Send</button>
+        </form>
+    </div>
+{% endblock %}
