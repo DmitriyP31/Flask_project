@@ -2,6 +2,7 @@ from flask import render_template, request, redirect, url_for
 from app import app
 import re
 from datetime import datetime
+import json
 
 
 @app.route("/")
@@ -24,7 +25,7 @@ def about():
 @app.route('/contact')
 def contact():
     now = datetime.now()
-    contact_info = {
+    info = {
         "department": "Customer Care Department",
         "manager": {
             "name": "Alexander Petrov",
@@ -37,7 +38,9 @@ def contact():
             "zip_code": "101000"
         }
     }
-    return render_template('contact.html', current_time=now, info=contact_info)
+    info_json = json.dumps(info)
+
+    return render_template('contact.html', current_time=now, info=info, info_json=info_json)
 
 
 @app.route("/submit", methods=["POST"])
@@ -46,6 +49,8 @@ def submit():
     name = request.form.get("name")
     email = request.form.get("email")
     message = request.form.get("message").strip()
+    info_json = request.form.get("info_json")
+    info = json.loads(info_json) if info_json else {}
     EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
     errors = {}
 
@@ -61,7 +66,8 @@ def submit():
         errors['message'] = "The message field must not be empty"
 
     if errors:
-        return render_template("contact.html", errors=errors, values=request.form, current_time=now)
+        return render_template("contact.html", errors=errors, values=request.form, current_time=now,
+                               info=info, info_json=info_json)
 
     return redirect(url_for("contact", status='success', current_time=now))
 

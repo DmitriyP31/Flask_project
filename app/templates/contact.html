@@ -28,7 +28,10 @@
                     <p class="error-message">{{ errors.message }}</p>
                 {% endif %}
 
+                <input type="hidden" name="info_json" value='{{ info_json }}'>
+
                 <button type="submit">Send</button>
+
             </form>
         </div>
 
@@ -36,13 +39,13 @@
             <h2>{{ info.department }}</h2>
             <p><strong>Manager:</strong> {{ info.manager.name }}</p>
             <p><strong>Role:</strong> {{ info.manager.role }}</p>
-            <p><strong>Email:</strong> <a href="{{ info.manager.email }}">{{ info.manager.email }}</a></p>
+            <p><strong>Email:</strong> <a href="mailto:{{ info.manager.email }}">{{ info.manager.email }}</a></p>
 
             <div class="address-box">
                 <h3>Our address:</h3>
                 <p>
                     {{ info.address.zip_code }},
-                    г. {{ info.address.city }},
+                    {{ info.address.city }},
                     {{ info.address.street }}
                 </p>
             </div>
