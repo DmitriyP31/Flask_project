@@ -43,31 +43,35 @@ def contact():
     return render_template('contact.html', current_time=now, info=info, info_json=info_json)
 
 
-@app.route("/submit", methods=["POST"])
+@app.route("/submit", methods=["POST", "GET"])
 def submit():
-    now = datetime.now()
-    name = request.form.get("name")
-    email = request.form.get("email")
-    message = request.form.get("message").strip()
-    info_json = request.form.get("info_json")
-    info = json.loads(info_json) if info_json else {}
-    EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-    errors = {}
+    if request.method == "POST":
+        now = datetime.now()
+        name = request.form.get("name")
+        email = request.form.get("email")
+        message = request.form.get("message").strip()
+        info_json = request.form.get("info_json")
+        info = json.loads(info_json) if info_json else {}
+        EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+        errors = {}
 
-    if not name:
-        errors['name'] = "The name field must not be empty"
+        if not name:
+            errors['name'] = "The name field must not be empty"
 
-    if not email:
-        errors['email'] = "The email field must not be empty"
-    elif not EMAIL_REGEX.match(email):
-        errors['email'] = "Invalid email format"
+        if not email:
+            errors['email'] = "The email field must not be empty"
+        elif not EMAIL_REGEX.match(email):
+            errors['email'] = "Invalid email format"
 
-    if not message:
-        errors['message'] = "The message field must not be empty"
+        if not message:
+            errors['message'] = "The message field must not be empty"
 
-    if errors:
-        return render_template("contact.html", errors=errors, values=request.form, current_time=now,
-                               info=info, info_json=info_json)
+        if errors:
+            return render_template("contact.html", errors=errors, values=request.form, current_time=now,
+                                   info=info, info_json=info_json)
 
-    return redirect(url_for("contact", status='success', current_time=now))
+        return redirect(url_for("contact", status='success', current_time=now))
+
+    else:
+        return redirect(url_for("contact"))
 
